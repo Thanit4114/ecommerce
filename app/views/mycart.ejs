@@ -1,0 +1,51 @@
+<%- include('page_header') %>
+
+<div class="container">
+    <div class="h4">ตะกร้าสินค้า</div>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <th width="140px"></th>
+            <th width="100px">ภาพสินค้า</th>
+            <th width="100px">บาร์โค้ด</th>
+            <th>รายการ</th>
+            <th width="100px" class="text-right">ราคา</th>
+            <th width="100px" class="text-right">จำนวน</th>
+            <th width="100px" class="text-right">ยอดรวม</th>
+        </thead>
+        <tbody>
+            <% products.forEach((product) => { %>
+                <tr>
+                    <td class="text-right">
+                        <a class="btn btn-info" href="/editInCart/<%= product.id %>">
+                        <span class="icons material-symbols-outlined">
+                            edit
+                            </span>
+                    </a>
+                    <a class="btn btn-danger" href="/deleteItemInCart/<%= product.id %>" onclick="return confirm('Are you sure ?')">
+                        <span class="icons material-symbols-outlined">
+                            close
+                            </span>
+                    </a>
+                </td>
+                    <td><img src="images/<%= product.img %>" width="150px"></td>
+                    <td><%= product.barcode %></td>
+                    <td><%= product.name %></td>
+                    <td class="text-right"><%= product.price %></td>
+                    <td class="text-right"><%= product.qty %></td>
+                    <td class="text-right"><%= numeral(product.qty * product.price).format() %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    <div class="text-center">
+        รวม <%= totalQty %> ชิ้น เป็นเงิน <%= numeral(totalPrice).format() %> บาท
+    </div>
+
+    <div class="text-center mt-3">
+        <a href="/confirmOrder" class="btn btn-info btn-lg">
+            ยืนยันการซื้อ
+        </a>
+    </div>
+</div>
+
+<%- include('page_footer') %>

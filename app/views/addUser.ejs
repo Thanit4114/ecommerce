@@ -1,0 +1,33 @@
+<%- include('header') %>
+
+<form method="post">
+    <div class="card-body mt-3">
+        <div class="card-title">เพิ่มผู้ใช้งานระบบ</div>
+        <div class="mt-3">
+            <label>ชื่อ</label>
+            <input type="text" name="name" class="form-control" value="<%= user.name %>" />
+        </div>
+        <div class="mt-3">
+            <label>username</label>
+            <input type="text" name="usr" class="form-control" value="<%= user.usr %>" />
+        </div>
+        <div class="mt-3">
+            <label>password</label>
+            <input type="text" name="pwd" class="form-control" value="<%= user.pwd %>" />
+        </div>
+        <div class="mt-3">
+            <label>ระดับ</label>
+            <div>
+            <input type="radio" name="level" value="user" <% if (user.level == 'user') { %> checked <% } %> /> User
+            <input type="radio" name="level" value="admin" <% if (user.level == 'admin') { %> checked <% } %> /> Admin
+        </div>
+        <div class="mt-3">
+            <button type="submit" class="btn btn-info">
+                Save
+            </button>
+        </div>
+        </div>
+    </div>
+</form>
+
+<%- include('footer') %>

@@ -1,0 +1,26 @@
+<%- include('header') %>
+
+<div class="card mt-4">
+    <div class="card-body">
+        
+    <div>
+        <div class="card-title h5">บันทึกการรับชำระเงิน: <%= orderId %></div>
+        <form method="post" class="mt-3">
+        <label>วันที่ชำระเงิน</label>
+        <input type="date" class="form-control" name="pay_date" />
+     </div>
+     <div class="mt-3">
+        <label>หมายเหตุเพิ่มเติม</label>
+        <input type="text" name="pay_remark" class="form-control" />
+     </div>
+     <div class="mt-3">
+        <button class="btn btn-info" type="submit">
+            Save
+        </button>
+     </div>
+</form>
+        
+    </div>
+    </div>
+
+<%- include('footer') %>

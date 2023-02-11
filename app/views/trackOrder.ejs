@@ -1,0 +1,39 @@
+<%- include('page_header') %>
+
+<form method="post">
+<div class="container mt-3">
+    <div class="card">
+        <div class="card-body">
+        <div class="input-group">
+            <div class="input-group-text">กรอกเบอร์โทรศัพท์ที่นี่</div>
+            <input class="form-control" name="phone" />
+            <div class="input-group-append">
+            <button class="btn btn-info">
+                <span class="icons material-symbols-outlined">
+                    search
+                    </span>
+                ค้นหา
+            </button>
+        </div>
+        </div>
+        
+        <% if (orders.length > 0) { %>
+            <% orders.forEach((order) => { %>
+        <div class="alert alert-info mt-2">
+            <div>ลูกค้า</div>
+            <div class="text-danger"><%= order.name %></div>
+            <div>รหัสติดตามพัสดุ</div>
+            <div class="text-danger"><%= order.track_code %></div>
+            <div>ขนส่ง</div>
+            <div class="text-danger"><%= order.track_name %></div>
+            <div>วันที่จัดส่ง</div>
+            <div class="text-danger"><%= dayjs(order.send_date).format(dayFormat) %></div>
+        </div>
+            <% }) %>
+        <% } %>
+        </div>
+    </div>
+</div>
+</form>
+
+<%- include('page_footer') %>

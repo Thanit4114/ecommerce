@@ -1,0 +1,59 @@
+<%- include('header') %>
+
+<div class="card mt-3">
+    <div class="card-body">
+        <div class="card-title">รับสินค้าเข้าสต๊อก</div>
+        <form method="post">
+            <div class="mt-3">
+                <label>สินค้า</label>
+                <input type="text" class="form-control" name="product_barcode"/>
+            </div>
+            <div class="mt-3">
+                <label>จำนวน</label>
+                <input type="text" class="form-control" name="qty" value="1" />
+            </div>
+            <div class="mt-3">
+                <label>หมายเหตุ</label>
+                <input type="text" class="form-control" name="remark" />
+            </div>
+            <div class="mt-3">
+                <button type="submit" class="btn btn-info">
+                    Save
+                </button>
+            </div>
+        </form>
+
+        <table class="mt-3 table table-bordered table-stiped">
+            <thead>
+                <tr>
+                    <td width="50px"></td>
+                    <th>barcode</th>
+                    <th>รายการสินค้า</th>
+                    <th class="text-right">จำนวน</th>
+                    <th>วันที่รับเข้าสต๊อก</th>
+                    <th>หมายเหตุ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% stockIns.forEach(item => { %>
+                <tr>
+                <td class="text-center">
+                    <a class="btn btn-danger" href="/deleteImportStock/<%= item.id %>" onclick="return confirm('ยืนยันการลบ')">
+                        <span class="icons material-symbols-outlined">
+                            close
+                            </span>
+                    </a>
+                </td>
+                <td><%= item.barcode %></td>
+                <td><%= item.name %></td>
+                <td class="text-right"><%= item.qty %></td>
+                <td><%= dayjs(item.created_date).format(dayFormat) %></td>
+                <td><%= item.remark %></td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<%- include('footer') %>

@@ -1,0 +1,51 @@
+<%- include('header') %>
+
+<div class="mt-3">
+    <div class="h4">รายการสั่งซื้อจากลูกค้า</div>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th width="270px"></th>
+                <th width="60px">รหัสบิล</th>
+                <th width="100px">ชื่อ</th>
+                <th width="120px">เบอร์โทรติดต่อ</th>
+                <th width="100px">ที่อยู่จัดส่ง</th>
+                <th width="150px">วันที่ชำระเงิน</th>
+                <th width="150px">วันที่จัดส่ง</th>
+                <th width="100px">เลขติดตามพัสดุ</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% orders.forEach((order) => { %>
+            <tr>
+                <td class="text-center">
+                <a class="btn btn-info" href="payOrder/<%= order.id %>">
+                    <span class="icons material-symbols-outlined">
+                        attach_money
+                        </span>ชำระเงิน
+                </a>
+                    <a class="btn btn-success" href="sendOrder/<%= order.id %>">
+                        <span class="icons material-symbols-outlined">
+                            local_shipping
+                            </span>จัดส่งสินค้า
+                    </a>
+                    <a class="btn btn-danger" href="/deleteOrder/<%= order.id %>" onclick="return confirm('Are you sure ?')">
+                        <span class="icons material-symbols-outlined">
+                            close
+                            </span>ยกเลิก
+                    </a>
+                </td>
+                <td><a href="/orderInfo/<%= order.id%>"><%= order.id %></a></td>
+                <td><%= order.name %></td>
+                <td><%= order.phone %></td>
+                <td><%= order.address %></td>
+                <td><%= dayjs(order.pay_date).format(dayFormat) %></td>
+                <td><%= dayjs(order.send_date).format(dayFormat) %></td>
+                <td><%= order.track_code %></td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+<%- include('footer') %>
