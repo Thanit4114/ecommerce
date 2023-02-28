@@ -41,8 +41,8 @@
                             <td><%= product.group_product_name %></td>
                             <td><%= product.barcode %></td>
                             <td><%= product.name %></td>
-                            <td class="text-right"><%= product.cost %></td>
-                            <td class="text-right"><%= product.price %></td>
+                            <td class="text-right"><%= numeral(product.cost).format() %></td>
+                            <td class="text-right"><%= numeral(product.price).format() %></td>
                         </tr>
                         <% }) %>
                 </tbody>

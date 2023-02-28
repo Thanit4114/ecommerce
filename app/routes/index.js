@@ -609,46 +609,52 @@ req.session.card = [ ];
     let m = dayjs().month() + 1;
     let daysInMonth = dayjs(y + '/' + m + '/1').daysInMonth();
     let arr = [];
+    let totalPrice = 0;
     let arrYears = [];
     let arrMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤษจิกายน', 'ธันวาคม'];
-
-
+  
     // ค่ามาจาก url ไม่ได้มาจาก form ใช้ req.query
-
     if (req.query['year'] != undefined) {
       y = req.query['year'];
       m = req.query['month'];
     }
-
-    for (i = 1; i <= daysInMonth; i++) {
+  
+    for (let i = 1; i <= daysInMonth; i++) {
       let sql = '';
       sql += ' SELECT SUM(qty * price) AS totalPrice FROM tb_order_detail';
       sql += ' LEFT JOIN tb_order ON tb_order.id = tb_order_detail.order_id';
       sql += ' WHERE DAY(tb_order.pay_date) = ?';
       sql += ' AND MONTH(tb_order.pay_date) = ?';
       sql += ' AND YEAR(tb_order.pay_date) = ?';
-
       let params = [i, m, y];
-      let [rows, fileds] = await conn.query(sql, params);
-      arr.push(rows[0].totalPrice);
+      let total = 0;
+      let [rows, fields] = await conn.query(sql, params);
+      if (rows.length > 0) {
+        total = rows[0].totalPrice;
+      }
+      arr.push(total);
     }
-
-    for (let i = yForLoop - 5; i <= yForLoop; i++){
+    totalPrice = arr.reduce((acc, cur) => acc + Number(cur), 0);
+  
+    for (let i = yForLoop - 5; i <= yForLoop; i++) {
       arrYears.push(i);
     }
+  
     res.render('reportSalePerDay', { 
       arr: arr, 
       y: y, 
       m: m, 
       arrYears: arrYears, 
-      arrMonths: arrMonths
+      arrMonths: arrMonths,
+      totalPrice: totalPrice
     });
-  })
+  });
 
   router.get('/reportSalePerMonth', isLogin, async (req, res) => {
     let conn = require('./connect2');
     let y = dayjs().year();
     let yForLoop = dayjs().year();
+    let totalPrice = 0;
     let arr = [];
     let arrYears = [];
 
@@ -665,15 +671,18 @@ req.session.card = [ ];
 
       let params = [i, y];
       let [rows, fields] = await conn.query(sql, params);
-
-      arr.push(rows[0].totalPrice);
+      if (rows.length > 0) {
+        total = rows[0].totalPrice;
+      }
+      arr.push(total);
     }
-
+    totalPrice = arr.reduce((acc, cur) => acc + Number(cur), 0);
+    
     for (let i = yForLoop - 4 ; i <= yForLoop; i++){
       arrYears.push(i);
     }
 
-    res.render('reportSalePerMonth', {arr: arr, y: y, arrYears: arrYears});
+    res.render('reportSalePerMonth', {arr: arr, y: y, arrYears: arrYears, totalPrice: totalPrice});
 
   })
 
